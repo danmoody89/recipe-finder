@@ -1,5 +1,6 @@
 const showAllBtn = document.querySelector('#show-all');
-const form = document.querySelector('form');
+const searchForm = document.querySelector('form#search-recipes');
+const addForm = document.querySelector('form#add-recipe');
 
 showAllBtn.addEventListener('click', () => {
    fetch('/recipes/all')
@@ -21,17 +22,54 @@ showAllBtn.addEventListener('click', () => {
             `;
 
             // Add div to DOM
-            form.insertAdjacentElement('beforeend', div);
+            searchForm.insertAdjacentElement('beforeend', div);
          });
       });
 });
 
-form.addEventListener('submit', e => {
+searchForm.addEventListener('submit', e => {
    e.preventDefault();
 
-   const query = form.querySelector('#query').value;
+   const query = searchForm.querySelector('#query').value;
 
    fetch(`/recipes/?tag=${query}`)
       .then(res => res.json())
       .then(recipes => console.log(recipes));
+});
+
+addForm.addEventListener('submit', e => {
+   e.preventDefault();
+
+   // Get form data
+   const name = addForm.querySelector('#name').value;
+   let method = addForm.querySelector('#method').value;
+   let tags = addForm.querySelector('#tags').value;
+
+   // Split method by new lines
+   method = method.split(/\n/);
+   // Split tags by commas
+   tags = tags.split(',');
+
+   // Create recipe object
+   const recipe = {
+      name,
+      method,
+      tags,
+   };
+
+   // POST JSON
+   fetch('/recipes', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(recipe),
+   })
+      .then(res => res.json())
+      .then(data => {
+         // Create p element
+         const p = document.createElement('p');
+         // Add text to p
+         p.textContent = data.result;
+         // Add p to DOM
+         addForm.insertAdjacentElement('beforeend', p);
+      });
 });

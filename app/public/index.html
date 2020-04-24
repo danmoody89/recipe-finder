@@ -16,10 +16,27 @@
       <button id="show-all">Show All Recipes</button>
       <br />
       <br />
-      <form>
+      <form id="search-recipes">
          <input type="text" id="query" placeholder="Search for recipes" />
          <input type="submit" value="Search" />
       </form>
+      <br />
+      <br />
+      <h2>Add your own recipe</h2>
+      <form id="add-recipe">
+         <label for="name">Name of Recipe</label>
+         <input type="text" id="name" />
+         <label for="method">Method</label>
+         <textarea type="text" id="method"></textarea>
+         <label for="tags">Tags</label>
+         <input
+            type="text"
+            id="tags"
+            placeholder="Add a comma separated list of tags so people can find your recipe"
+         />
+         <input type="submit" value="Submit Recipe" />
+      </form>
+
       <script src="scripts.js"></script>
    </body>
 </html>
