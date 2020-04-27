@@ -18,16 +18,12 @@ app.get('/recipes', (req, res) => console.log(req.query.tag));
 
 app.post('/recipes', (req, res) => {
    recipes.push(req.body);
-   console.log(recipes);
-   // JSON.parse(recipes);
-   // fs.writeFile(path.join(__dirname, '/recipes/recipes.json'), recipes, err => {
-   //    if (err) {
-   //       console.log(err);
-   //       return;
-   //    }
-   // });
-
-   res.send({ result: 'Recipe Posted!' });
+   fs.writeFile(path.join(__dirname, '/recipes/recipes.json'), JSON.stringify(recipes), err => {
+      if (err) {
+         console.log(err);
+         return;
+      } else res.send({ result: 'Recipe Posted!' });
+   });
 });
 
 app.listen(port, () => console.log(`App listening on port ${port}`));
